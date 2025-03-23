@@ -1,126 +1,132 @@
-# unplugin-import-adapter
-[English document](https://github.com/JsonLee12138/unplugin-import-adapter/blob/main/README.en.md)
+# unplugin-import-adapter 🚀  
 
-一个用于分析 TypeScript 文件并自动提取导出内容的工具库，专为 unplugin-auto-import 设计。这个工具简化了在项目中自动导入组件、工具函数和其他模块导出的设置过程。
+**[English document](https://github.com/JsonLee12138/unplugin-import-adapter/blob/main/README.en.md)**
 
-## 安装
+**自动提取 TypeScript 导出的工具库，专为 `unplugin-auto-import` 设计**。这个工具简化了在项目中自动导入组件、工具函数和其他模块导出的设置过程。
+
+
+## 🌟 核心功能  
+
+- **自动发现**：无需手动配置，自动扫描TypeScript文件的命名导出
+- **灵活适配**：支持包名/文件路径/别名转换/排除规则
+- **生态兼容**：完美对接 `unplugin-auto-import` ，支持  `Vite` / `Webpack` / `Rollup`
+
+
+## 📦 安装  
 
 ```bash
-# npm
+# 包管理器任选其一
 npm install -D unplugin-import-adapter
-
-# yarn
 yarn add -D unplugin-import-adapter
-
-# pnpm
 pnpm add -D unplugin-import-adapter
+
+# 注意：若遇ts-morph错误需单独安装
+npm install -D ts-morph
 ```
 
-> **注意：** 如果报 `ts-morph` 错误, 请单独安装一下, 方法如下：
-> ```bash
-> npm install -D ts-morph
-> 或者
-> yarn add -D ts-morph
-> 或者
-> pnpm add -D ts-morph
-> ```
 
-## 为什么使用 unplugin-import-adapter？
+## 🤔 为什么选择我们？
 
-- **节省时间**：自动从模块中提取所有导出，无需手动配置
-- **减少错误**：防止在配置导入列表时出现拼写错误和其他错误
-- **保持更新**：当您向模块添加新的导出时，自动获取它们
-- **灵活配置**：轻松排除特定导出或使用别名转换导出名称
+| 优势               | 说明                                 |
+| ------------------ | ------------------------------------ |
+| **🚀 节省90%时间**  | 自动提取导出，告别手动维护导入列表   |
+| **🛡️ 减少人为错误** | 避免拼写错误和配置遗漏               |
+| **🔄 实时同步更新** | 新增导出自动生效，无需重启开发服务器 |
+| **🎛️ 高度可配置**   | 支持别名转换、灵活排除规则           |
 
-## 基本用法
+
+## 🚦 快速开始  
 
 ```typescript
 // vite.config.ts
-import { autoImport } from 'unplugin-import-adapter';
+import { defineConfig } from 'vite';
 import AutoImport from 'unplugin-auto-import/vite';
-import { resolve } from 'path';
+import { autoImport } from 'unplugin-import-adapter';
+import path from 'path';
 
-const imports = await autoImport({
-  pkgName: '@rgx/components',
-  path: resolve(__dirname, './components/src/index.ts')
-});
-
-// 当前以`radash`和`antd`为例
-export default {
+export default defineConfig({
   plugins: [
     AutoImport({
       imports: [
-        // 自动引入`radash`
+        // 场景1：自动导入本地组件库
+        autoImport({
+          pkgName: '@rgx/components',
+          path: path.resolve(__dirname, './components/src/index.ts')
+        }),
+
+        // 场景2：处理第三方库（如radash）
         autoImport({
           pkgName: 'radash',
-          // 当前路径不知道是什么就去`node_modules`里找
-          path: resolve(__dirname, './node_modules/radash/dist/esm/index.mjs'),
-          // 别名转换, 例如`map` => `_map_`
-          alias: (name) => `_${name}_`
-        })
+          alias: name => `_${name}_` // 转换为下划线包裹的别名
+        }),
+
+        // 场景3：处理UI框架（如antd）
         autoImport({
           pkgName: 'antd',
-          path: resolve(__dirname, './node_modules/antd/es/index.js'),
-          alias: (name) => `Antd${name}`
+          alias: name => `Antd${name}` // 统一添加前缀
         })
       ],
-      // 以下是`unplugin-auto-import/vite`的配置内容, 请自行参阅文档(https://www.npmjs.com/package/unplugin-auto-import)
-      eslintrc: {
-        enabled: true,
-      },
-      dts: resolve(__dirname, './src/auto-imports.d.ts')
+      
+      // 其他unplugin-auto-import配置
+      eslintrc: { enabled: true },
+      dts: 'src/auto-imports.d.ts'
     })
   ]
-}
+});
 ```
 
-## API 参考
 
-### autoImport(options)
+## 📖 API 参考  
 
-分析 TypeScript 文件并提取用于自动导入的导出信息。
+### `autoImport(options)`
 
-#### 选项
+**参数说明**：
 
-| 选项       | 类型                       | 必填 | 默认值    | 描述                                                        |
-| ---------- | -------------------------- | ---- | --------- | ----------------------------------------------------------- |
-| `pkgName`  | `string`                   | 是   | -         | 将用于导入的包名                                            |
-| `path`     | `string`                   | 否   | `pkgName` | 要分析的包名或文件入口（如果不是包可以是文件入口）          |
-| `alias`    | `(name: string) => string` | 否   | -         | 转换导出名称的函数                                          |
-| `excludes` | `(string \| RegExp)[]`     | 否   | -         | 要排除的导出列表（字符串用于精确匹配，RegExp 用于模式匹配） |
+| 选项       | 类型                       | 必填 | 默认值    | 描述                                       |
+| ---------- | -------------------------- | ---- | --------- | ------------------------------------------ |
+| `pkgName`  | `string`                   | ✅    | -         | 用于导入的包名（会自动解析到node_modules） |
+| `path`     | `string`                   | ❌    | `pkgName` | 自定义文件路径（优先级高于pkgName）        |
+| `alias`    | `(name: string) => string` | ❌    | -         | 导出名称转换函数                           |
+| `excludes` | `(string \| RegExp)[]`     | ❌    | `[]`      | 排除列表（支持字符串精确匹配或正则表达式） |
 
-## 故障排除
 
-### 常见问题
+## 🛠 故障排除指南  
 
-1. **未找到导出**
-   - 检查文件的路径是否正确
-   - 确保文件实际上有命名导出（不仅仅是默认导出）
-   - 验证导出没有被您的排除模式排除
+### 问题1：未找到导出项  
 
-2. **ts-morph 错误**
-   - 确保已安装 ts-morph 作为对等依赖
-   - 检查 TypeScript 版本兼容性
+1. 检查文件路径是否正确（建议使用绝对路径）  
+2. 确认文件包含**命名导出**（非默认导出）  
+3. 检查`excludes`配置是否错误匹配导出项  
 
-3. **路径解析问题**
-   - 使用 `path.resolve` 确保绝对路径
-   - 检查文件路径是否存在
+### 问题2：ts-morph错误  
 
-## 支持
+1. 确保已安装`ts-morph`作为开发依赖  
+2. 检查TypeScript版本（要求4.0+）  
 
-- **GitHub Issues**：在我们的 GitHub 仓库上报告 bug 或功能请求
-- **文档**：参考此 README 获取最新文档
+### 问题3：路径解析异常  
 
-## 兼容性
+```typescript
+// 推荐使用双保险路径解析
+path.resolve(__dirname, `node_modules/${pkgName}/dist/index.ts`)
+```
 
-- 适用于 TypeScript 4.0+
-- 兼容所有主要的打包工具（Vite、Webpack、Rollup）
-- 支持 ESM 和 CommonJS 环境
 
-## 贡献
+## 🌐 兼容性  
 
-欢迎贡献！请随时提交 Pull Request。
+| 环境       | 支持情况                    |
+| ---------- | --------------------------- |
+| TypeScript | 4.0+                        |
+| 打包工具   | Vite ✅  Webpack ✅  Rollup ✅ |
+| 模块格式   | ESM ✅  CommonJS ✅           |
 
-## 许可证
+
+## 🤝 参与贡献  
+
+1. 提交Bug请附带复现步骤  
+2. 功能建议请先开Issue讨论  
+3. 提交PR前请确保测试用例通过  
+
+
+## 📄 许可证  
 
 MIT
