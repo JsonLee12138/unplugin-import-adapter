@@ -14,7 +14,6 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/es/index.js",
   "types": "./types/index.d.ts",
-  "homepage": "https://www.npmjs.com/package/unplugin-import-adapter",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/JsonLee12138/unplugin-import-adapter"
