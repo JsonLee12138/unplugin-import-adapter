@@ -22,6 +22,7 @@
     "url": "https://github.com/JsonLee12138/unplugin-import-adapter/issues",
     "email": "lijunsong2@gmail.com"
   },
+  "license": "MIT",
   "exports": {
     "types": "./types/index.d.ts",
     "import": "./dist/es/index.js",
