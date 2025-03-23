@@ -1,127 +1,133 @@
-# unplugin-import-adapter
-[中文文档](https://github.com/JsonLee12138/unplugin-import-adapter/blob/main/README.md)
 
-A tool library designed to analyze TypeScript files and automatically extract export information, specifically built for unplugin-auto-import. This tool simplifies the setup process for automatically importing components, utility functions, and other module exports in your projects.
+# unplugin-import-adapter 🚀  
 
-## Installation
+**[中文文档](https://github.com/JsonLee12138/unplugin-import-adapter/blob/main/README.md)**
+
+**A TypeScript export auto-extraction library designed for `unplugin-auto-import`**. Simplify the setup process of auto-importing components, utility functions, and other module exports in your project.
+
+
+## 🌟 Core Features  
+
+- **Auto Discovery**: Automatically scan named exports from TypeScript files without manual configuration  
+- **Flexible Adaptation**: Support package name/file path/alias conversion/exclusion rules  
+- **Ecosystem Compatibility**: Perfectly integrate with `unplugin-auto-import`, works with `Vite`/`Webpack`/`Rollup`
+
+
+## 📦 Installation  
 
 ```bash
-# npm
+# Choose one package manager
 npm install -D unplugin-import-adapter
-
-# yarn
 yarn add -D unplugin-import-adapter
-
-# pnpm
 pnpm add -D unplugin-import-adapter
+
+# Note: Install ts-morph separately if encountering errors
+npm install -D ts-morph
 ```
 
-> **Note:** If you encounter a `ts-morph` error, please install it separately using one of the following commands:
-> ```bash
-> npm install -D ts-morph
-> # or
-> yarn add -D ts-morph
-> # or
-> pnpm add -D ts-morph
-> ```
 
-## Why Use unplugin-import-adapter?
+## 🤔 Why Choose Us?
 
-- **Time Saver:** Automatically extracts all exports from modules, eliminating the need for manual configuration.
-- **Error Reduction:** Prevents typos and other errors when manually setting up the import list.
-- **Automatic Updates:** Automatically detects new exports when you add them to your modules.
-- **Flexible Configuration:** Easily exclude specific exports or rename them with alias transformations.
+| Advantage          | Description                              |
+|--------------------|------------------------------------------|
+| **🚀 Save 90% Time** | Auto-extract exports,告别 manual import list maintenance |
+| **🛡️ Reduce Human Errors** | Avoid typos and configuration omissions  |
+| **🔄 Real-time Updates** | New exports take effect immediately without restarting dev server |
+| **🎛️ Highly Configurable** | Support alias conversion and flexible exclusion rules |
 
-## Basic Usage
+
+## 🚦 Quick Start  
 
 ```typescript
 // vite.config.ts
-import { autoImport } from 'unplugin-import-adapter';
+import { defineConfig } from 'vite';
 import AutoImport from 'unplugin-auto-import/vite';
-import { resolve } from 'path';
+import { autoImport } from 'unplugin-import-adapter';
+import path from 'path';
 
-const imports = await autoImport({
-  pkgName: '@rgx/components',
-  path: resolve(__dirname, './components/src/index.ts')
-});
-
-// Example using `radash` and `antd`
-export default {
+export default defineConfig({
   plugins: [
     AutoImport({
       imports: [
-        // Automatically import `radash`
+        // Scenario 1: Auto-import local component library
+        autoImport({
+          pkgName: '@rgx/components',
+          path: path.resolve(__dirname, './components/src/index.ts')
+        }),
+
+        // Scenario 2: Handle third-party libraries (e.g., radash)
         autoImport({
           pkgName: 'radash',
-          // If the current path is not known, it will be resolved from `node_modules`
-          path: resolve(__dirname, './node_modules/radash/dist/esm/index.mjs'),
-          // Alias transformation, e.g., `map` => `_map_`
-          alias: (name) => `_${name}_`
+          alias: name => `_${name}_` // Convert to underscore-wrapped alias
         }),
+
+        // Scenario 3: Handle UI frameworks (e.g., antd)
         autoImport({
           pkgName: 'antd',
-          path: resolve(__dirname, './node_modules/antd/es/index.js'),
-          alias: (name) => `Antd${name}`
+          alias: name => `Antd${name}` // Add统一 prefix
         })
       ],
-      // Below are configurations for `unplugin-auto-import/vite`.
-      // Please refer to the documentation (https://www.npmjs.com/package/unplugin-auto-import) for more details.
-      eslintrc: {
-        enabled: true,
-      },
-      dts: resolve(__dirname, './src/auto-imports.d.ts')
+      
+      // Other unplugin-auto-import configurations
+      eslintrc: { enabled: true },
+      dts: 'src/auto-imports.d.ts'
     })
   ]
-}
+});
 ```
 
-## API Reference
 
-### autoImport(options)
+## 📖 API Reference  
 
-Analyzes a TypeScript file and extracts the export information needed for automatic importing.
+### `autoImport(options)`
 
-#### Options
+**Parameter Description**:
 
-| Option     | Type                       | Required   | Default   | Description                                                                                      |
-| ---------- | -------------------------- | ---------- | --------- | ------------------------------------------------------------------------------------------------ |
-| `pkgName`  | `string`                   | Yes        | -         | The package name to be used for importing                                                        |
-| `path`     | `string`                   | No         | `pkgName` | The package name or file entry point to analyze. (Can be a file path if not analyzing a package) |
-| `alias`    | `(name: string) => string` | No         | -         | A function to transform the export name                                                          |
-| `excludes` | `(string                   | RegExp)[]` | No        | -                                                                                                | A list of exports to exclude (string for exact matching, RegExp for pattern matching) |
+| Option       | Type                       | Required | Default   | Description                                       |
+|--------------|----------------------------|----------|-----------|---------------------------------------------------|
+| `pkgName`    | `string`                   | ✅       | -         | Package name for imports (auto-resolves to node_modules) |
+| `path`       | `string`                   | ❌       | `pkgName` | Custom file path (higher priority than pkgName)    |
+| `alias`      | `(name: string) => string` | ❌       | -         | Export name conversion function                   |
+| `excludes`   | `(string \| RegExp)[]`     | ❌       | `[]`      | Exclusion list (supports exact string or regex)   |
 
-## Troubleshooting
 
-### Common Issues
+## 🛠 Troubleshooting Guide  
 
-1. **Exports Not Found**
-   - Verify whether the file path is correct.
-   - Ensure that the file has named exports (not just a default export).
-   - Check that the exports are not excluded by your exclusion patterns.
+### Issue 1: No exports found  
 
-2. **ts-morph Errors**
-   - Ensure that ts-morph is installed as a peer dependency.
-   - Check for compatibility with your TypeScript version.
+1. Check file path correctness (recommend absolute paths)  
+2. Ensure files contain **named exports** (not default exports)  
+3. Verify `excludes` configuration isn't mistakenly matching exports  
 
-3. **Path Resolution Problems**
-   - Use `path.resolve` to ensure absolute paths.
-   - Double-check that the file path exists.
+### Issue 2: ts-morph error  
 
-## Support
+1. Ensure `ts-morph` is installed as a dev dependency  
+2. Check TypeScript version (requires 4.0+)  
 
-- **GitHub Issues:** Report bugs or feature requests on our GitHub repository.
-- **Documentation:** Refer to this README for the latest documentation.
+### Issue 3: Path resolution issues  
 
-## Compatibility
+```typescript
+// Recommended double-check path resolution
+path.resolve(__dirname, `node_modules/${pkgName}/dist/index.ts`)
+```
 
-- Works with TypeScript 4.0+
-- Compatible with major bundlers (Vite, Webpack, Rollup)
-- Supports both ESM and CommonJS environments
 
-## Contribution
+## 🌐 Compatibility  
 
-Contributions are welcome! Feel free to submit pull requests.
+| Environment  | Support Status              |
+|--------------|-----------------------------|
+| TypeScript   | 4.0+                        |
+| Bundlers     | Vite ✅  Webpack ✅  Rollup ✅ |
+| Module Formats | ESM ✅  CommonJS ✅           |
 
-## License
 
-MIT
+## 🤝 Contributing  
+
+1. Include reproduction steps when submitting bugs  
+2. Discuss feature proposals in Issues first  
+3. Ensure test cases pass before submitting PRs  
+
+
+## 📄 License  
+
+MIT  
