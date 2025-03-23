@@ -5,11 +5,23 @@
   "files": [
     "dist",
     "types",
-    "!dist/**/*.map"
+    "!dist/**/*.map",
+    "README.md",
+    "LICENSE",
+    "README.en.md"
   ],
   "main": "./dist/cjs/index.js",
   "module": "./dist/es/index.js",
   "types": "./types/index.d.ts",
+  "homepage": "https://www.npmjs.com/package/unplugin-import-adapter",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JsonLee12138/unplugin-import-adapter"
+  },
+  "bugs": {
+    "url": "https://github.com/JsonLee12138/unplugin-import-adapter/issues",
+    "email": "lijunsong2@gmail.com"
+  },
   "exports": {
     "types": "./types/index.d.ts",
     "import": "./dist/es/index.js",
@@ -20,6 +32,7 @@
     "build": "tsc && vite build"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.28.1",
     "terser": "^5.39.0",
     "typescript": "~5.7.3",
     "unplugin-auto-import": "^19.1.1",

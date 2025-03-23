@@ -1,4 +1,5 @@
 # unplugin-import-adapter
+[English document](https://github.com/JsonLee12138/unplugin-import-adapter/blob/main/README.en.md)
 
 一个用于分析 TypeScript 文件并自动提取导出内容的工具库，专为 unplugin-auto-import 设计。这个工具简化了在项目中自动导入组件、工具函数和其他模块导出的设置过程。
 

@@ -1,4 +1,5 @@
 # unplugin-import-adapter
+[中文文档](https://github.com/JsonLee12138/unplugin-import-adapter/blob/main/README.md)
 
 A tool library designed to analyze TypeScript files and automatically extract export information, specifically built for unplugin-auto-import. This tool simplifies the setup process for automatically importing components, utility functions, and other module exports in your projects.
 
