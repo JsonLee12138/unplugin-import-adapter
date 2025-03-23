@@ -1,5 +1,6 @@
 {
   "name": "unplugin-import-adapter",
+  "description": "unplugin-import-adapter is a lightweight utility that simplifies plugin auto-importing and adaptation for multiple build tools. It streamlines configuration for Vite, Webpack, Rollup, and more, ensuring seamless integration with your development workflow. By automatically handling import setups, the library helps you reduce manual configuration, improve code maintainability, and accelerate your development process.",
   "version": "0.0.3",
   "type": "module",
   "files": [
