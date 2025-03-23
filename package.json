@@ -29,7 +29,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "ci:publish": "pnpm changeset publish -r"
   },
   "devDependencies": {
     "@changesets/cli": "^2.28.1",
