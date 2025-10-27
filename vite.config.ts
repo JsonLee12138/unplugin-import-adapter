@@ -12,7 +12,7 @@ export default defineConfig({
       entry: './src/index.ts',
       name: 'auto-import',
       // 第二个参数是入口文件名
-      fileName: (format, _) => {
+      fileName: (format: string) => {
         return `${format}/index.js`
       },
       formats: ['es', 'cjs']
@@ -21,8 +21,8 @@ export default defineConfig({
     outDir: './dist',
     sourcemap: true,
     emptyOutDir: true,
-    rollupOptions: {
-      external: ['ts-morph']
-    }
+    // rollupOptions: {
+    //   external: ['ts-morph']
+    // }
   },
 })

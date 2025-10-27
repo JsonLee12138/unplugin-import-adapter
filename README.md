@@ -1,18 +1,18 @@
-# unplugin-import-adapter 🚀  
+# unplugin-import-adapter 🚀
 
 **[English document](https://github.com/JsonLee12138/unplugin-import-adapter/blob/main/README.en.md)**
 
 **自动提取 TypeScript 导出的工具库，专为 `unplugin-auto-import` 设计**。这个工具简化了在项目中自动导入组件、工具函数和其他模块导出的设置过程。
 
 
-## 🌟 核心功能  
+## 🌟 核心功能
 
 - **自动发现**：无需手动配置，自动扫描TypeScript文件的命名导出
 - **灵活适配**：支持包名/文件路径/别名转换/排除规则
 - **生态兼容**：完美对接 `unplugin-auto-import` ，支持  `Vite` / `Webpack` / `Rollup`
 
 
-## 📦 安装  
+## 📦 安装
 
 ```bash
 # 包管理器任选其一
@@ -35,7 +35,7 @@ npm install -D ts-morph
 | **🎛️ 高度可配置**   | 支持别名转换、灵活排除规则           |
 
 
-## 🚦 快速开始  
+## 🚦 快速开始
 
 ```typescript
 // vite.config.ts
@@ -50,7 +50,7 @@ export default defineConfig({
       imports: [
         // 场景1：自动导入本地组件库
         autoImport({
-          pkgName: '@rgx/components',
+          pkgName: 'components',
           path: path.resolve(__dirname, './components/src/index.ts')
         }),
 
@@ -66,7 +66,7 @@ export default defineConfig({
           alias: name => `Antd${name}` // 统一添加前缀
         })
       ],
-      
+
       // 其他unplugin-auto-import配置
       eslintrc: { enabled: true },
       dts: 'src/auto-imports.d.ts'
@@ -76,7 +76,7 @@ export default defineConfig({
 ```
 
 
-## 📖 API 参考  
+## 📖 API 参考
 
 ### `autoImport(options)`
 
@@ -90,20 +90,20 @@ export default defineConfig({
 | `excludes` | `(string \| RegExp)[]`     | ❌    | `[]`      | 排除列表（支持字符串精确匹配或正则表达式） |
 
 
-## 🛠 故障排除指南  
+## 🛠 故障排除指南
 
-### 问题1：未找到导出项  
+### 问题1：未找到导出项
 
-1. 检查文件路径是否正确（建议使用绝对路径）  
-2. 确认文件包含**命名导出**（非默认导出）  
-3. 检查`excludes`配置是否错误匹配导出项  
+1. 检查文件路径是否正确（建议使用绝对路径）
+2. 确认文件包含**命名导出**（非默认导出）
+3. 检查`excludes`配置是否错误匹配导出项
 
-### 问题2：ts-morph错误  
+### 问题2：ts-morph错误
 
-1. 确保已安装`ts-morph`作为开发依赖  
-2. 检查TypeScript版本（要求4.0+）  
+1. 确保已安装`ts-morph`作为开发依赖
+2. 检查TypeScript版本（要求4.0+）
 
-### 问题3：路径解析异常  
+### 问题3：路径解析异常
 
 ```typescript
 // 推荐使用双保险路径解析
@@ -111,7 +111,7 @@ path.resolve(__dirname, `node_modules/${pkgName}/dist/index.ts`)
 ```
 
 
-## 🌐 兼容性  
+## 🌐 兼容性
 
 | 环境       | 支持情况                    |
 | ---------- | --------------------------- |
@@ -120,13 +120,13 @@ path.resolve(__dirname, `node_modules/${pkgName}/dist/index.ts`)
 | 模块格式   | ESM ✅  CommonJS ✅           |
 
 
-## 🤝 参与贡献  
+## 🤝 参与贡献
 
-1. 提交Bug请附带复现步骤  
-2. 功能建议请先开Issue讨论  
-3. 提交PR前请确保测试用例通过  
+1. 提交Bug请附带复现步骤
+2. 功能建议请先开Issue讨论
+3. 提交PR前请确保测试用例通过
 
 
-## 📄 许可证  
+## 📄 许可证
 
 MIT

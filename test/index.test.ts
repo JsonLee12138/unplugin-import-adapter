@@ -7,12 +7,12 @@ describe('test auto import', () => {
   const project = new Project();
   test('test auto import', async () => {
     const imports = await autoImport({
-      pkgName: '@rgx/components',
+      pkgName: '@leeforge/components',
       path: resolve(__dirname, '../../components/src/index.ts'),
       excludes: ['Button']
     })
     console.log(imports);
-    expect(imports).toEqual({ '@rgx/components': [['Select', 'Select']] });
+    expect(imports).toEqual({ '@leeforge/components': [['Select', 'Select']] });
   });
 
   test('ts-morph', async () => {

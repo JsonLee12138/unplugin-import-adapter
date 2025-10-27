@@ -1,19 +1,19 @@
 
-# unplugin-import-adapter 🚀  
+# unplugin-import-adapter 🚀
 
 **[中文文档](https://github.com/JsonLee12138/unplugin-import-adapter/blob/main/README.md)**
 
 **A TypeScript export auto-extraction library designed for `unplugin-auto-import`**. Simplify the setup process of auto-importing components, utility functions, and other module exports in your project.
 
 
-## 🌟 Core Features  
+## 🌟 Core Features
 
-- **Auto Discovery**: Automatically scan named exports from TypeScript files without manual configuration  
-- **Flexible Adaptation**: Support package name/file path/alias conversion/exclusion rules  
+- **Auto Discovery**: Automatically scan named exports from TypeScript files without manual configuration
+- **Flexible Adaptation**: Support package name/file path/alias conversion/exclusion rules
 - **Ecosystem Compatibility**: Perfectly integrate with `unplugin-auto-import`, works with `Vite`/`Webpack`/`Rollup`
 
 
-## 📦 Installation  
+## 📦 Installation
 
 ```bash
 # Choose one package manager
@@ -28,15 +28,15 @@ npm install -D ts-morph
 
 ## 🤔 Why Choose Us?
 
-| Advantage          | Description                              |
-|--------------------|------------------------------------------|
-| **🚀 Save 90% Time** | Auto-extract exports,告别 manual import list maintenance |
-| **🛡️ Reduce Human Errors** | Avoid typos and configuration omissions  |
-| **🔄 Real-time Updates** | New exports take effect immediately without restarting dev server |
-| **🎛️ Highly Configurable** | Support alias conversion and flexible exclusion rules |
+| Advantage                 | Description                                                       |
+| ------------------------- | ----------------------------------------------------------------- |
+| **🚀 Save 90% Time**       | Auto-extract exports,告别 manual import list maintenance          |
+| **🛡️ Reduce Human Errors** | Avoid typos and configuration omissions                           |
+| **🔄 Real-time Updates**   | New exports take effect immediately without restarting dev server |
+| **🎛️ Highly Configurable** | Support alias conversion and flexible exclusion rules             |
 
 
-## 🚦 Quick Start  
+## 🚦 Quick Start
 
 ```typescript
 // vite.config.ts
@@ -51,7 +51,7 @@ export default defineConfig({
       imports: [
         // Scenario 1: Auto-import local component library
         autoImport({
-          pkgName: '@rgx/components',
+          pkgName: 'components',
           path: path.resolve(__dirname, './components/src/index.ts')
         }),
 
@@ -67,7 +67,7 @@ export default defineConfig({
           alias: name => `Antd${name}` // Add统一 prefix
         })
       ],
-      
+
       // Other unplugin-auto-import configurations
       eslintrc: { enabled: true },
       dts: 'src/auto-imports.d.ts'
@@ -77,34 +77,34 @@ export default defineConfig({
 ```
 
 
-## 📖 API Reference  
+## 📖 API Reference
 
 ### `autoImport(options)`
 
 **Parameter Description**:
 
-| Option       | Type                       | Required | Default   | Description                                       |
-|--------------|----------------------------|----------|-----------|---------------------------------------------------|
-| `pkgName`    | `string`                   | ✅       | -         | Package name for imports (auto-resolves to node_modules) |
-| `path`       | `string`                   | ❌       | `pkgName` | Custom file path (higher priority than pkgName)    |
-| `alias`      | `(name: string) => string` | ❌       | -         | Export name conversion function                   |
-| `excludes`   | `(string \| RegExp)[]`     | ❌       | `[]`      | Exclusion list (supports exact string or regex)   |
+| Option     | Type                       | Required | Default   | Description                                              |
+| ---------- | -------------------------- | -------- | --------- | -------------------------------------------------------- |
+| `pkgName`  | `string`                   | ✅        | -         | Package name for imports (auto-resolves to node_modules) |
+| `path`     | `string`                   | ❌        | `pkgName` | Custom file path (higher priority than pkgName)          |
+| `alias`    | `(name: string) => string` | ❌        | -         | Export name conversion function                          |
+| `excludes` | `(string \| RegExp)[]`     | ❌        | `[]`      | Exclusion list (supports exact string or regex)          |
 
 
-## 🛠 Troubleshooting Guide  
+## 🛠 Troubleshooting Guide
 
-### Issue 1: No exports found  
+### Issue 1: No exports found
 
-1. Check file path correctness (recommend absolute paths)  
-2. Ensure files contain **named exports** (not default exports)  
-3. Verify `excludes` configuration isn't mistakenly matching exports  
+1. Check file path correctness (recommend absolute paths)
+2. Ensure files contain **named exports** (not default exports)
+3. Verify `excludes` configuration isn't mistakenly matching exports
 
-### Issue 2: ts-morph error  
+### Issue 2: ts-morph error
 
-1. Ensure `ts-morph` is installed as a dev dependency  
-2. Check TypeScript version (requires 4.0+)  
+1. Ensure `ts-morph` is installed as a dev dependency
+2. Check TypeScript version (requires 4.0+)
 
-### Issue 3: Path resolution issues  
+### Issue 3: Path resolution issues
 
 ```typescript
 // Recommended double-check path resolution
@@ -112,22 +112,22 @@ path.resolve(__dirname, `node_modules/${pkgName}/dist/index.ts`)
 ```
 
 
-## 🌐 Compatibility  
+## 🌐 Compatibility
 
-| Environment  | Support Status              |
-|--------------|-----------------------------|
-| TypeScript   | 4.0+                        |
-| Bundlers     | Vite ✅  Webpack ✅  Rollup ✅ |
+| Environment    | Support Status              |
+| -------------- | --------------------------- |
+| TypeScript     | 4.0+                        |
+| Bundlers       | Vite ✅  Webpack ✅  Rollup ✅ |
 | Module Formats | ESM ✅  CommonJS ✅           |
 
 
-## 🤝 Contributing  
+## 🤝 Contributing
 
-1. Include reproduction steps when submitting bugs  
-2. Discuss feature proposals in Issues first  
-3. Ensure test cases pass before submitting PRs  
+1. Include reproduction steps when submitting bugs
+2. Discuss feature proposals in Issues first
+3. Ensure test cases pass before submitting PRs
 
 
-## 📄 License  
+## 📄 License
 
-MIT  
+MIT
