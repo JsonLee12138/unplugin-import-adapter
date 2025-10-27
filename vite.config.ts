@@ -21,8 +21,8 @@ export default defineConfig({
     outDir: './dist',
     sourcemap: true,
     emptyOutDir: true,
-    // rollupOptions: {
-    //   external: ['ts-morph']
-    // }
+    rollupOptions: {
+      external: ['ts-morph']
+    }
   },
 })
